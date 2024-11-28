@@ -12,7 +12,7 @@
       <!-- Sidebar for navigation -->
       <div class="sidebar">
         <ul>
-          <li class="active">Service Selection</li>
+          <li class="active">Event Type Selection</li>
           <li>Date & Time</li>
           <li>Your Information</li>
           <li>Payments</li>
@@ -23,7 +23,7 @@
       <div class="main-content">
         <!-- Service Selection Section -->
         <div id="service-selection" class="section">
-          <h2>Service Selection</h2>
+          <h2>Event Type Selection</h2>
           <label for="service">Service:</label>
           <select id="service">
             <option value="event" data-price="P25,000">Amenities: Event</option>
@@ -39,42 +39,55 @@
         <!-- Date & Time Section -->
         <div id="date-time-section" class="section hidden">
           <h2>Select Date & Time</h2>
-          <div class="calendar">
-            <div class="calendar-header">
-              <button id="prev-month">&lt;</button>
-              <select id="month-selector"></select>
-              <select id="year-selector"></select>
-              <button id="next-month">&gt;</button>
-            </div>
-            <div class="calendar-days-header">
-              <span>Mon</span>
-              <span>Tue</span>
-              <span>Wed</span>
-              <span>Thu</span>
-              <span>Fri</span>
-              <span>Sat</span>
-              <span>Sun</span>
-            </div>
-            <div class="calendar-days"></div>
-          </div>
+          <main class="date-time-main" id="date-time-main">
+            <section class="calendar-section" id="calendar-section">
+              <div class="calendar">
+                <div class="calendar-header">
+                  <button id="prev-month" aria-label="Previous Month">&lt;</button>
+                  <select id="month-selector" aria-label="Select Month"></select>
+                  <select id="year-selector" aria-label="Select Year"></select>
+                  <button id="next-month" aria-label="Next Month">&gt;</button>
+                </div>
+                <div class="calendar-days-header">
+                  <span>Mon</span>
+                  <span>Tue</span>
+                  <span>Wed</span>
+                  <span>Thu</span>
+                  <span>Fri</span>
+                  <span>Sat</span>
+                  <span>Sun</span>
+                </div>
+                <div class="calendar-days"></div>
+              </div> <!-- Close .calendar -->
+            </section>
+            <section class="time-section" id="time-section">
+              <h1>Time</h1>
+              <button class="time-btn" value="day" aria-pressed="false">Day (8am - 5pm)</button>
+              <button class="time-btn" value="night" aria-pressed="false">Night (6pm - 12mn)</button>
+              <button class="time-btn" value="wholeDay" aria-pressed="false">Whole Day (8am - 12mn)</button>
+            </section>
+          </main>
           <div class="navigation-buttons">
-            <button id="date-time-prev" class="prev-button">Previous</button>
-            <button id="date-time-next" class="next-button">Next</button>
+            <button id="date-time-prev" class="prev-button" aria-label="Previous Section">Previous</button>
+            <button id="date-time-next" class="next-button" aria-label="Next Section">Next</button>
           </div>
         </div>
+        
 
         <!-- Your Information Section -->
         <div id="your-info" class="section hidden">
           <h2>Your Information</h2>
-          <form id="user-info-form">
+          <form id="user-info-form" autocomplete="off">
             <label for="first-name">First Name:</label>
             <input type="text" id="first-name" required>
             <label for="last-name">Last Name:</label>
             <input type="text" id="last-name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" required>
+            <!-- <label for="email">Email:</label>
+            <input type="email" id="email" required> -->
             <label for="phone">Phone:</label>
             <input type="tel" id="phone" required>
+            <label for="notes">Notes:</label>
+            <textarea name="notes" id="notes" rows="4"></textarea>
           </form>
           <div class="navigation-buttons">
             <button id="your-info-prev" class="prev-button">Previous</button>
@@ -88,8 +101,8 @@
           <form id="payment-form">
             <label for="payment-method">Payment Method:</label>
             <select id="payment-method">
-              <option value="credit-card">Credit Card</option>
-              <option value="paypal">PayPal</option>
+              <option value="onsite">On-Site Payment</option>
+              <option value="online">Online Payment</option>
             </select>
           </form>
           <div class="navigation-buttons">

@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Create a Day Element
   const createDayElement = (text, className, date = null) => {
     const dayElement = document.createElement("div");
+    const d_t_section = document.getElementById("date-time-main");
     dayElement.className = `day ${className}`;
     dayElement.textContent = text;
     if (date && className === "available") {
@@ -44,10 +45,25 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".day").forEach(d => d.classList.remove("selected"));
         dayElement.classList.add("selected");
         selectedDate = date;
+        d_t_section.scrollBy(0, 300);
       });
     }
     return dayElement;
   };
+
+  // const createTimeElement = (text, className, value, dateSelected) => {
+  //   const timeElement = document.createElement("button");
+  //   timeElement.className = `time ${className}`;
+  //   timeElement.textContent = text;
+  //   if (dateSelected){
+  //     timeElement.setAttribute("value", value);
+  //     timeElement.addEventListener("click", () => {
+  //       document.querySelectorAll(".time").forEach(d => d.classList.remove("btn-selected"));
+  //       dayElement.classList.add("btn-selected");
+  //     });
+  //   }
+  //   return timeElement;
+  // }
 
   // Populate Month and Year Selectors
   const populateSelectors = () => {
