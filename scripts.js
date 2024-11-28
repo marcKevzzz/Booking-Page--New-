@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     email: document.querySelector("#summary-email"),
     payment: document.querySelector("#summary-payment")
   };
+  const finish = document.querySelector(".finish");
   const finishButton = document.querySelector("#finish-button");
   const nextButtons = document.querySelectorAll(".next-button");
   const prevButtons = document.querySelectorAll(".prev-button");
@@ -45,25 +46,30 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".day").forEach(d => d.classList.remove("selected"));
         dayElement.classList.add("selected");
         selectedDate = date;
-        d_t_section.scrollBy(0, 300);
+        d_t_section.scrollBy(0, 500);
       });
     }
     return dayElement;
   };
-
-  // const createTimeElement = (text, className, value, dateSelected) => {
-  //   const timeElement = document.createElement("button");
-  //   timeElement.className = `time ${className}`;
-  //   timeElement.textContent = text;
-  //   if (dateSelected){
-  //     timeElement.setAttribute("value", value);
-  //     timeElement.addEventListener("click", () => {
-  //       document.querySelectorAll(".time").forEach(d => d.classList.remove("btn-selected"));
-  //       dayElement.classList.add("btn-selected");
-  //     });
-  //   }
-  //   return timeElement;
-  // }
+  
+  // Create a Time Element
+  const createTimeElement = (text, className, date = null) => {
+    const TimeElement = document.createElement("div");
+    const d_t_section = document.getElementById("date-time-main");
+    dayElement.className = `day ${className}`;
+    dayElement.textContent = text;
+    if (date && className === "available") {
+      dayElement.setAttribute("data-date", date);
+      dayElement.addEventListener("click", () => {
+        document.querySelectorAll(".day").forEach(d => d.classList.remove("selected"));
+        dayElement.classList.add("selected");
+        selectedDate = date;
+        d_t_section.scrollBy(0, 500);
+      });
+    }
+    return dayElement;
+  };
+  
 
   // Populate Month and Year Selectors
   const populateSelectors = () => {
@@ -90,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       yearSelector.appendChild(option);
     }
   };
-
+  
   // Handle Service Selection
   const handleServiceSelection = () => {
     const initialOption = serviceDropdown.selectedOptions[0];
@@ -128,27 +134,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
       paymentMethodSelect.addEventListener("change", () => {
         paymentMethod = paymentMethodSelect.value;
+        
       });
     }
   };
 
   // Populate Summary
   const populateSummary = () => {
-    finishButton.addEventListener("click", () => {
-      if (!selectedService || !selectedDate || !userInfo["first-name"] || !userInfo.email || !paymentMethod) {
+    finish.addEventListener("click", () => {
+      console.log({ selectedService, selectedDate, userInfo, paymentMethod });
+    
+      if (!selectedService || !selectedDate || !userInfo["first-name"] || !paymentMethod) {
         alert("Please fill all required fields before finishing.");
         return;
       }
       
+      // Proceed with populating the summary
       summaryFields.service.textContent = selectedService || "Not selected";
       summaryFields.date.textContent = selectedDate || "Not selected";
       summaryFields.name.textContent = `${userInfo["first-name"]} ${userInfo["last-name"] || ''}`.trim() || "Not provided";
       summaryFields.email.textContent = userInfo.email || "Not provided";
       summaryFields.payment.textContent = paymentMethod || "Not selected";
-      
-      alert("Booking completed successfully!");
+
     });
+    
+    finishButton.addEventListener("click", () => {
+      alert("Booking completed successfully!");
+
+    })
   };
+
 
   // Next and Previous button functionality
   const handleNavigation = () => {
@@ -177,6 +192,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add event listeners to previous buttons
     prevButtons.forEach(button => {
       button.addEventListener("click", () => navigateToSection('prev'));
+    });
+  };
+
+  // Setup Sidebar Navigation
+  const setupSidebarNavigation = () => {
+    sidebarItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+       
+        const canProceed = index < currentSection || validateCurrentSection();
+      
+        if (canProceed) {
+          // Update section based on direction
+          currentSection = index;
+          
+          // Ensure section stays within bounds
+          currentSection = Math.max(0, Math.min(currentSection, sections.length - 1));
+          
+          updateSections();
+        } else if (index > currentSection) {
+          alert("Please complete all required fields before proceeding.");
+        }
+
+        // if (index < currentSection) {
+        //   currentSection = index;
+        //   updateSections();
+        // }
+      });
     });
   };
 
@@ -286,56 +328,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Add this function to update summary when the section becomes visible
-function updateSummary() {
-  // Get service selection
-  const serviceSelect = document.getElementById('service');
-  const selectedService = serviceSelect.options[serviceSelect.selectedIndex].text;
-  document.getElementById('summary-service').textContent = selectedService;
+  // Summary Update Function
+  const updateSummary = () => {
+    // Get service selection
+    const serviceSelect = document.getElementById('service');
+    const selectedService = serviceSelect.options[serviceSelect.selectedIndex].text;
+    document.getElementById('summary-service').textContent = selectedService;
+    console.log(selectedService);
 
-  // Get selected date (assuming you store the selected date in a variable or data attribute)
-  // This might need to be adjusted based on how you're storing the date selection
-  const selectedDate = document.querySelector('.day.selected');
-  if (selectedDate) {
-      document.getElementById('summary-date').textContent = selectedDate.getAttribute('data-full-date');
-  }
+    // Get selected date (assuming you store the selected date in a variable or data attribute)
+    const selectedDateElement = document.querySelector('.day.selected');
+    if (selectedDateElement) {
+      document.getElementById('summary-date').textContent = selectedDateElement.getAttribute('data-date');
+    console.log(selectedDateElement.getAttribute('data-date'));
 
-  // Get user information
-  const firstName = document.getElementById('first-name').value;
-  const lastName = document.getElementById('last-name').value;
-  document.getElementById('summary-name').textContent = `${firstName} ${lastName}`;
-  
-  const email = document.getElementById('email').value;
-  document.getElementById('summary-email').textContent = email;
+    }
 
-  // Get payment method
-  const paymentMethod = document.getElementById('payment-method');
-  const selectedPayment = paymentMethod.options[paymentMethod.selectedIndex].text;
-  document.getElementById('summary-payment').textContent = selectedPayment;
-}
+    // Get user information
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+    document.getElementById('summary-name').textContent = `${firstName} ${lastName}`;
+    console.log(`${firstName} ${lastName}`);
+    
 
-// Add this to your navigation logic when moving to summary section
-document.getElementById('payments-next').addEventListener('click', function() {
-  document.getElementById('payments').classList.add('hidden');
-  document.getElementById('summary').classList.remove('hidden');
-  updateSummary(); // Update summary information immediately
-});
+    // const email = document.getElementById('email').value;
+    // document.getElementById('summary-email').textContent = email;
 
-// Add click handler for finish button
-document.getElementById('finish-button').addEventListener('click', function() {
-  // Handle the booking confirmation
-  alert('Booking confirmed! Thank you for your reservation.');
-  // Additional confirmation logic here
-});
+    // Get payment method
+    const paymentMethod = document.getElementById('payment-method');
+    const selectedPayment = paymentMethod.options[paymentMethod.selectedIndex].text;
+    document.getElementById('summary-payment').textContent = selectedPayment;
+    console.log(selectedPayment);
 
-// Optional: Update summary if user goes back and makes changes
-document.getElementById('summary-prev').addEventListener('click', function() {
-  // Store current summary state if needed
-});
-
-document.getElementById('payments-next').addEventListener('click', function() {
-  updateSummary(); // Update when returning to summary
-});
+  };
 
   // Initialize
   const initialize = () => {
@@ -347,8 +372,11 @@ document.getElementById('payments-next').addEventListener('click', function() {
     collectUserInfo();
     collectPaymentMethod();
     populateSummary();
+    setupSidebarNavigation(); // Add this line
     updateSections();
   };
 
+  
   initialize();
 });
+

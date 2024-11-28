@@ -23,6 +23,8 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   overflow: hidden;
+  min-height: 600px;
+  max-height: 600px;
 }
 
 /* Sidebar styles */
@@ -61,15 +63,16 @@ body {
 .main-content {
   width: 70%;
   padding: 30px;
-  overflow-y: auto;
 }
 
 .section {
+  height: 100%;
   max-width: 500px;
   margin: 0 auto;
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-
 
 
 .section h2 {
@@ -86,12 +89,18 @@ label {
   font-weight: 500;
 }
 
+#user-info-form{
+  display: flex;
+  flex-direction: column;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="tel"],
+input[type="number"],
 textarea,
 select {
-  width: 100%;
+
   padding: 12px;
   margin-bottom: 20px;
   border: 1px solid #ddd;
@@ -103,6 +112,7 @@ select {
 
 input[type="text"]:focus,
 input[type="email"]:focus,
+input[type="number"]:focus,
 input[type="tel"]:focus,
 textarea:focus,
 select:focus {
@@ -114,13 +124,14 @@ select:focus {
 /* Calendar styling */
 
 .date-time-main{
-  max-height: 30em;
+  max-height: 25em;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 15vh;
   padding-right: 5px;
   scroll-behavior: smooth;
+  
 }
 
 .date-time-main::-webkit-scrollbar{
@@ -270,11 +281,59 @@ select:focus {
 .time-section .time-btn:hover{
   background: #0056b3;
   color: white;
+  cursor: pointer;
+}
+
+/* Payment Method */
+#payment-form{
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+#payment-form label{
+  font-size: 1.15em;
+}
+
+#payment-method{
+  flex: 1;
+  font-size: 1.1em;
+}
+
+.amount input[type="number"]{
+  padding-left: 25px;
+  font-size: 1.05em;
+}
+
+.amount{
+  position: relative;
+  height: fit-content;
+  width: fit-content;
+}
+
+.amount::after{
+  content: "₱";
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  z-index: 99999;
+  font-size: 1.2em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /* Summary section styling */
 #summary {
-  padding: 20px;
+  padding: 0 20px 0 20px ;
 }
 
 #summary h2 {
@@ -327,6 +386,10 @@ select:focus {
   gap: 20px;
 }
 
+#summary .navigation-buttons{
+  padding: 0;
+}
+
 /* Price display */
 .price-display {
   margin: 20px 0;
@@ -342,4 +405,29 @@ select:focus {
 /* Utility classes */
 .hidden {
   display: none;
+}
+
+.time-slots h3 {
+  margin-top: 15px;
+}
+.time-slot-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.time-slot {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.time-slot.available:hover {
+  background-color: #f0f0f0;
+}
+.time-slot.selected {
+  background-color: #4CAF50;
+  color: white;
+}
+.time-slot.booked {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
 }
