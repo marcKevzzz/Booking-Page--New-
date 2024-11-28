@@ -1,4 +1,7 @@
 /* Existing base styles */
+html{
+  scroll-behavior: smooth;
+}
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -64,7 +67,10 @@ body {
 .section {
   max-width: 500px;
   margin: 0 auto;
+  
 }
+
+
 
 .section h2 {
   color: #0056b3;
@@ -83,6 +89,7 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="tel"],
+textarea,
 select {
   width: 100%;
   padding: 12px;
@@ -91,11 +98,13 @@ select {
   border-radius: 4px;
   font-size: 14px;
   transition: border-color 0.3s ease;
+  resize: none;
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
+textarea:focus,
 select:focus {
   border-color: #007bff;
   outline: none;
@@ -103,6 +112,26 @@ select:focus {
 }
 
 /* Calendar styling */
+
+.date-time-main{
+  max-height: 30em;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15vh;
+  padding-right: 5px;
+  scroll-behavior: smooth;
+}
+
+.date-time-main::-webkit-scrollbar{
+  width: 8px;
+}
+
+.date-time-main::-webkit-scrollbar-thumb{
+  background: #888;
+}
+
+
 .calendar {
   max-width: 500px;
   margin: 0 auto;
@@ -221,6 +250,27 @@ select:focus {
   background-color: #218838;
 }
 
+/* Time Selection */
+.time-section{
+  min-height: 10em;
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+  padding-bottom: 15vh;
+  padding-inline: .5em;
+}
+
+.time-section .time-btn{
+  padding: 1em 1em;
+  background: transparent;
+  border-radius: 0;
+  border: 1px solid black;
+}
+
+.time-section .time-btn:hover{
+  background: #0056b3;
+  color: white;
+}
 
 /* Summary section styling */
 #summary {
