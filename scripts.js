@@ -202,45 +202,38 @@ document.addEventListener("DOMContentLoaded", () => {
   // Collect Payment Method
   const collectPaymentMethod = () => {
     const paymentMethodSelect = document.querySelector("#payment-method");
-    const paymentOnlineMethodSelected = document.querySelector(
-      "#online-payment-group"
-    );
-    const paymentMethodOnline = document.querySelector(
-      "#payment-method-online"
-    );
-    const paymentOnsiteMethodSelected =
-      document.querySelector("#onsite-payment");
+    const paymentOnlineMethodSelected = document.querySelector("#online-payment-group");
+    const paymentMethodOnline = document.querySelector("#payment-method-online");
+    const paymentOnsiteMethodSelected = document.querySelector("#onsite-payment");
     const payment = document.querySelector("#payment");
-
+  
     const initialOption = serviceDropdown.selectedOptions[0];
-    console.log(initialOption.getAttribute("data-price"));
     const amount = document.querySelector("#amounts");
     const payNowBtn = document.querySelector(".payNow");
-
+    const balanceElement = document.querySelector(".balance");
+  
     const selectedPrice = initialOption.getAttribute("data-price");
     if (serviceDropdown) {
       document.querySelectorAll(".subTotal, .total").forEach((subTotal) => {
         subTotal.textContent = selectedPrice;
       });
     }
-
+  
     document.querySelectorAll(".event").forEach((events) => {
       events.textContent = selectedService;
     });
-
+  
     if (paymentMethodOnline) {
       paymentMethodOnline.addEventListener("change", () => {
         const paymentMethodOl = paymentMethodOnline.value;
-
         document.querySelector(".eWallet").textContent = paymentMethodOl;
       });
     }
-
+  
     if (paymentMethodSelect) {
-      // Set initial payment method
       paymentMethodSelect.addEventListener("change", () => {
         paymentMethod = paymentMethodSelect.value;
-
+  
         if (paymentMethod == "Online Payment") {
           payment.style.display = "flex";
           paymentOnlineMethodSelected.style.display = "flex";
@@ -253,23 +246,39 @@ document.addEventListener("DOMContentLoaded", () => {
         updateSummary();
         console.log(paymentMethod);
       });
-
+  
       payNowBtn.addEventListener("click", () => {
-        document.querySelector(".online-payment").style.display = "flex";
-        document.querySelector(".paid").textContent = `${amount.value}`;
-        console.log(amount.value);
-        const prices = initialOption.getAttribute("data-price");
+        // Get the selected service option for precise pricing
+        const selectedServiceOption = serviceDropdown.options[serviceDropdown.selectedIndex];
+        const prices = selectedServiceOption.getAttribute("data-price");
+        
+        // Remove any non-digit characters and parse the prices
         const cleanSelectedPrice = prices.replace(/[^\d]/g, "");
         const selectedPriceValue = parseInt(cleanSelectedPrice) || 0; 
         const amountValue = parseInt(amount.value) || 0;
-
+  
+        // Validate payment amount
+        if (amountValue < selectedPriceValue) {
+          // Create a more specific error message based on the service type
+          const serviceName = selectedServiceOption.text;
+          alert(`Insufficient payment for ${serviceName}. Minimum amount required is ₱${selectedPriceValue.toLocaleString()}.`);
+          amount.value = ''; // Clear the input
+          balanceElement.textContent = '0'; // Reset balance
+          return; // Stop further processing
+        }
+  
+        // If amount is sufficient, proceed with payment processing
+        document.querySelector(".online-payment").style.display = "flex";
+        document.querySelector(".paid").textContent = `${amountValue.toLocaleString()}`;
+  
         // Calculate the balance
         const balance = amountValue - selectedPriceValue;
-
+  
         // Update the balance element
-        document.querySelector(".balance").textContent = `₱ ${balance}`;
+        balanceElement.textContent = `₱ ${balance.toLocaleString()}`;
       });
     }
+  };
     // if (paymentOnlineMethodSelect) {
     //   // Set initial payment method
     //   const paymentOnlineMethod = paymentOnlineMethodSelect.value;
@@ -287,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //     console.log(paymentOnlineMethod);
     //   });
     // }
-  };
+  //};
 
   // Populate Summary
   const populateSummary = () => {
