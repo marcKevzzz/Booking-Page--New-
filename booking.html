@@ -1,170 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Modal</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking Modal</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-  <div class="modal">
-    <div class="modal-content">
-      <!-- Sidebar for navigation -->
-      <div class="sidebar">
-        <ul>
-          <li class="active">Event Type Selection</li>
-          <li>Date & Time</li>
-          <li>Your Information</li>
-          <li>Payments</li>
-          <li>Summary</li>
-        </ul>
-      </div>
-      <!-- Main content area -->
-      <div class="main-content">
-        <!-- Service Selection Section -->
-        <div id="service-selection" class="section">
-          <section>
-            <h2>Event Type Selection</h2>
-            <label for="service">Service:</label>
-            <select id="service">
-              <option value="event" data-price="P25,000">Amenities: Event</option>
-              <option value="pool-non-ac" data-price="P7,500-P9,500">Amenities: Pool Event (Non-Airconditioned)</option>
-              <option value="pool-ac" data-price="P12,000-P14,000">Amenities: Pool Event (With Airconditioned Studio
-                Room)</option>
-            </select>
-            <p id="service-price" class="price-display">Price:</p> <!-- Default price -->
-          </section>
-          <div class="navigation-buttons">
-            <button id="service-next" class="next-button">Next</button>
-          </div>
+  <body>
+    <div class="modal">
+      <div class="modal-content">
+        <!-- Sidebar for navigation -->
+        <div class="sidebar">
+          <h2>Booking Procedure</h2>
+          <ul>
+            <li class="active">Event Type</li>
+            <li>Date & Time</li>
+            <li>Information</li>
+            <li>Payments</li>
+            <li>Summary</li>
+          </ul>
         </div>
-
-        <!-- Date & Time Section -->
-        <div id="date-time-section" class="section hidden">
-          <h2>Select Date & Time</h2>
-          <main class="date-time-main" id="date-time-main">
-            <section class="calendar-section" id="calendar-section">
-              <div class="calendar">
-                <div class="calendar-header">
-                  <button id="prev-month" aria-label="Previous Month">&lt;</button>
-                  <select id="month-selector" aria-label="Select Month"></select>
-                  <select id="year-selector" aria-label="Select Year"></select>
-                  <button id="next-month" aria-label="Next Month">&gt;</button>
-                </div>
-                <div class="calendar-days-header">
-                  <span>Mon</span>
-                  <span>Tue</span>
-                  <span>Wed</span>
-                  <span>Thu</span>
-                  <span>Fri</span>
-                  <span>Sat</span>
-                  <span>Sun</span>
-                </div>
-                <div class="calendar-days"></div>
-                <div class="time-slots"></div>
-              </div> <!-- Close .calendar -->
-            </section>
-            <section class="time-section" id="time-section">
-              <center>
-                <h1>Time</h1>
-              </center>
-              <button class="time-btn" value="day" aria-pressed="false">Day (8am - 5pm)</button>
-              <button class="time-btn" value="night" aria-pressed="false">Night (6pm - 12mn)</button>
-              <button class="time-btn" value="wholeDay" aria-pressed="false">Whole Day (8am - 12mn)</button>
-            </section>
-          </main>
-          <div class="navigation-buttons">
-            <button id="date-time-prev" class="prev-button" aria-label="Previous Section">Previous</button>
-            <button id="date-time-next" class="next-button" aria-label="Next Section">Next</button>
-          </div>
-        </div>
-
-
-        <!-- Your Information Section -->
-        <div id="your-info" class="section hidden">
-          <section>
-            <h2>Your Information</h2>
-            <form id="user-info-form" autocomplete="off" >
-              <label for="first-name">First Name:</label>
-              <input type="text" id="first-name" required>
-              <label for="last-name">Last Name:</label>
-              <input type="text" id="last-name" required>
-              <!-- <label for="email">Email:</label>
-            <input type="email" id="email" required> -->
-              <label for="phone">Phone:</label>
-              <input type="tel" id="phone" required>
-              <label for="notes">Notes:</label>
-              <textarea name="notes" id="notes" rows="4"></textarea>
-            </form>
-          </section>
-          <div class="navigation-buttons">
-            <button id="your-info-prev" class="prev-button">Previous</button>
-            <button id="your-info-next" class="next-button">Next</button>
-          </div>
-        </div>
-
-        <!-- Payment Section -->
-        <div id="payments" class="section hidden">
-          <section>
-            <h2>Payments</h2>
-            <form id="payment-form">
-              <label for="payment-method">Payment Method:</label>
-              <select id="payment-method">
-                <option value="On-Site Payment">On-Site Payment</option>
-                <option value="Online Payment">Online Payment</option>
+        <!-- Main content area -->
+        <div class="main-content">
+          <!-- Service Selection Section -->
+          <div id="service-selection" class="section">
+            <section>
+              <h2>Event Type Selection</h2>
+              <label for="service">Amenities:</label>
+              <select id="service">
+                <option class="disabled" value="0" disabled selected="true">
+                  Please select a event type.
+                </option>
+                <option value="event" data-price="₱25,000">
+                  Event Package
+                </option>
+                <option value="pool-non-ac" data-price="₱7,500">
+                  Pool Event - Non Airconditioned
+                </option>
+                <option value="pool-ac" data-price="₱12,000">
+                  Pool Event - With Airconditioned Studio Room
+                </option>
               </select>
-              <div class="payment">
-                <select id="payment-method-online">
-                  <option value="Paymaya">Paymaya</option>
-                  <option value="Paypal">Paypal</option>
-                  <option value="Gcash">Gcash</option>
+
+              <div class="event-summary" id="event-summary"></div>
+            </section>
+            <div class="navigation-buttons">
+              <button id="service-next" class="next-button">Next</button>
+            </div>
+          </div>
+
+          <!-- Date & Time Section -->
+          <div id="date-time-section" class="section hidden">
+            <h2>Select Date & Time</h2>
+            <main class="date-time-main" id="date-time-main">
+              <section class="calendar-section" id="calendar-section">
+                <div class="calendar">
+                  <div class="calendar-header">
+                    <button id="prev-month" aria-label="Previous Month">
+                      &lt;
+                    </button>
+                    <select
+                      id="month-selector"
+                      aria-label="Select Month"
+                    ></select>
+                    <select
+                      id="year-selector"
+                      aria-label="Select Year"
+                    ></select>
+                    <button id="next-month" aria-label="Next Month">
+                      &gt;
+                    </button>
+                  </div>
+                  <div class="calendar-days-header">
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                    <span>Sun</span>
+                  </div>
+                  <div class="calendar-days"></div>
+                  <div class="time-slots"></div>
+                </div>
+                <!-- Close .calendar -->
+              </section>
+              <section class="time-section" id="time-section">
+                <center>
+                  <h1>Time</h1>
+                </center>
+                <button
+                  class="time-btn"
+                  value="Day (8am - 5pm)"
+                  aria-pressed="false"
+                >
+                  Day (8am - 5pm)
+                </button>
+                <button
+                  class="time-btn"
+                  value="Night (6pm - 12mn)"
+                  aria-pressed="false"
+                >
+                  Night (6pm - 12mn)
+                </button>
+                <button
+                  class="time-btn"
+                  value="Whole Day (8am - 12mn)"
+                  aria-pressed="false"
+                >
+                  Whole Day (8am - 12mn)
+                </button>
+              </section>
+            </main>
+            <div class="navigation-buttons">
+              <button
+                id="date-time-prev"
+                class="prev-button"
+                aria-label="Previous Section"
+              >
+                Previous
+              </button>
+              <button
+                id="date-time-next"
+                class="next-button"
+                aria-label="Next Section"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+
+          <!-- Your Information Section -->
+          <div id="your-info" class="section hidden">
+            <section>
+              <h2>Information</h2>
+              <form id="user-info-form" autocomplete="off">
+                <label for="full-name">Full Name:</label>
+                <input type="text" id="full-name" required />
+                <label for="guest">Guests: </label>
+                <input type="number" id="guest" />
+
+                <!-- <label for="email">Email:</label>
+            <input type="email" id="email" required> -->
+                <label for="phone">Phone Number:</label>
+                <input type="number" id="phone" minlength="11" required />
+                <label for="notes">Notes:</label>
+                <textarea name="notes" id="notes" rows="4"></textarea>
+              </form>
+            </section>
+            <div class="navigation-buttons">
+              <button id="your-info-prev" class="prev-button">Previous</button>
+              <button id="your-info-next" class="next-button">Next</button>
+            </div>
+          </div>
+
+          <!-- Payment Section -->
+          <div id="payments" class="section hidden">
+            <section>
+              <h2>Payments</h2>
+              <form id="payment-form">
+                <label for="payment-method">Payment Method:</label>
+                <select id="payment-method">
+                  <option class="disabled" value="" disabled selected="true">
+                    Select Payment Method
+                  </option>
+                  <option value="On-Site Payment">On-Site Payment</option>
+                  <option value="Online Payment">Online Payment</option>
                 </select>
-                <div class="amount">
-                  <input type="number" inputmode="numeric" pattern="\d*" placeholder="Input Amount" >
+                <div class="payment" id="payment" style="display: none">
+                  <select id="payment-method-online">
+                    <option value="Paymaya">Paymaya</option>
+                    <option value="Paypal">Paypal</option>
+                    <option value="Gcash">Gcash</option>
+                  </select>
+                  <div class="amount">
+                    <input
+                      id="amounts"
+                      type="number"
+                      inputmode="numeric"
+                      pattern="\d*"
+                      placeholder="Input Amount"
+                    />
+                  </div>
+                  <a class="payNow">Pay Now</a>
+                </div>
+              </form>
+
+              <div
+                class="onsite-payment"
+                id="onsite-payment"
+                style="display: none"
+              >
+                <h4>Receipt</h4>
+                <div>Event Type: <span class="event"></span></div>
+                <div>Sub Total: <span class="subTotal"></span></div>
+                <div><strong>Total: <span class="total"></span></strong></div>
+              </div>
+              <div
+                class="online-payment-group"
+                id="online-payment-group"
+                style="display: none"
+              >
+                <h3>Receipt</h3>
+
+                <div>Event Type: <span class="event"></span></div>
+                <div>E-wallet: <span class="eWallet">Paymaya</span></div>
+                <div>Sub Total: <span class="subTotal"></span></div>
+                <div><strong>Total: <span class="total"></span></strong></div>
+                <div
+                  class="online-payment"
+                  id="online-payment"
+                  style="display: none"
+                >
+                <hr />
+                  <div>Amount Paid: ₱<span class="paid"></span></div>
+                  <div>Balace: <span class="balance"></span></div>
                 </div>
               </div>
-            </form>
-            
-            <div class="onsite-payment" id="onsite-payment">
-              <div class="event">Event Type: </div>
-              <div>Amount: </div>
-              <div>Total Amount: </div>
+            </section>
+            <div class="navigation-buttons">
+              <button id="payments-prev" class="prev-button">Previous</button>
+              <button id="payments-next" class="next-button finish">
+                Next
+              </button>
             </div>
-            <div class="online-payment" id="online-payment">
-              <div class="event">Event Type: </div>
-              <div>Amount: </div>
-              <div>Total Amount: </div>
-            </div>
-          </section>
-          <div class="navigation-buttons">
-            <button id="payments-prev" class="prev-button">Previous</button>
-            <button id="payments-next" class="next-button finish">Next</button>
           </div>
-        </div>
 
-        <!-- Summary Section -->
-        <div id="summary" class="section hidden">
-          <section>
-          <h2>Summary</h2>
-          <p><strong>Service:</strong> <span id="summary-service"></span></p>
-          <p><strong>Date:</strong> <span id="summary-date"></span></p>
-          <p><strong>Name:</strong> <span id="summary-name"></span></p>
-          <p><strong>Email:</strong> <span id="summary-email"></span></p>
-          <p><strong>Payment Method:</strong> <span id="summary-payment"></span></p>
-        </section>
-        <div class="navigation-buttons">
-          <button id="summary-prev" class="prev-button">Previous</button>
-          <button id="finish-button" class="finish-button">Finish Booking</button>
-        </div>
+          <!-- Summary Section -->
+          <div id="summary" class="section hidden">
+            <section>
+              <h2>Summary</h2>
+              <p><strong>Event:</strong> <span id="summary-service"></span></p>
+              <p><strong>Date:</strong> <span id="summary-date"></span></p>
+              <p><strong>Time:</strong> <span id="summary-time"></span></p>
+              <p><strong>Name:</strong> <span id="summary-name"></span></p>
+              <p><strong>Email:</strong> <span id="summary-email"></span></p>
+              <p>
+                <strong>Payment Method:</strong>
+                <span id="summary-payment"></span>
+              </p>
+            </section>
+            <div class="navigation-buttons">
+              <button id="summary-prev" class="prev-button">Previous</button>
+              <button id="finish-button" class="finish-button">
+                Finish Booking
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
 
-  <script src="scripts.js"></script>
-</body>
-
+    <script src="scripts.js"></script>
+  </body>
 </html>
